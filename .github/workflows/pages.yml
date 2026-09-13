@@ -1,0 +1,94 @@
+name: Test and deploy marimo
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Test and export interactive site
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      UV_CACHE_DIR: ${{ runner.temp }}/uv-cache
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      # Supports this project either at the repository root or under tutorial/.
+      - name: Locate notebook
+        id: project
+        shell: bash
+        run: |
+          if [[ -f minimax_visualizer.py ]]; then
+            echo 'directory=.' >> "$GITHUB_OUTPUT"
+          elif [[ -f tutorial/minimax_visualizer.py ]]; then
+            echo 'directory=tutorial' >> "$GITHUB_OUTPUT"
+          else
+            echo 'Cannot find minimax_visualizer.py at the root or in tutorial/.' >&2
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+
+      - name: Install export tools
+        run: python -m pip install --no-cache-dir 'marimo==0.24.2' 'uv==0.12.9'
+
+      - name: Check notebook
+        working-directory: ${{ steps.project.outputs.directory }}
+        run: python -m marimo check minimax_visualizer.py
+
+      - name: Run regression tests
+        working-directory: ${{ steps.project.outputs.directory }}
+        run: python -m unittest discover -s tests -v
+
+      - name: Export interactive WebAssembly app
+        working-directory: ${{ steps.project.outputs.directory }}
+        run: >-
+          python -m marimo export html-wasm minimax_visualizer.py
+          --output "$RUNNER_TEMP/week7-site" --mode run --no-show-code
+
+      - name: Check exported files
+        shell: bash
+        run: |
+          test -s "$RUNNER_TEMP/week7-site/index.html"
+          test -d "$RUNNER_TEMP/week7-site/assets"
+          touch "$RUNNER_TEMP/week7-site/.nojekyll"
+
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ${{ runner.temp }}/week7-site
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

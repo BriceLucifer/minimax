@@ -1,0 +1,10 @@
+# Local environments and generated runtime state
+.venv/
+__pycache__/
+*.py[cod]
+__marimo__/
+.DS_Store
+
+# Generated web bundle and scratch output; CI builds its own copy.
+output/web/
+tmp/
