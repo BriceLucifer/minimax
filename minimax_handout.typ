@@ -69,10 +69,10 @@
       grid(columns: (auto, 1fr), column-gutter: 2mm, align: bottom,
         text(size: 10pt)[Name], line(length: 100%, stroke: 0.4pt + luma(150))),
       text(size: 10pt)[Week 7],
-      text(size: 10pt, fill: muted)[Team name: *Trible L*],
+      text(size: 10pt, fill: muted)[Team name: *Triple L*],
     )
   ] else [
-    #text(size: 10pt, fill: muted)[Team name: *Trible L*]
+    #text(size: 10pt, fill: muted)[Team name: *Triple L*]
   ]
 ]
 #masthead([Week 7 Tutorial | Games, Adversarial Search], student: true)
