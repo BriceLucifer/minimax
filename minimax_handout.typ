@@ -6,7 +6,7 @@
 #let min-red = rgb("E23D45")
 #let max-blue = rgb("246BEB")
 #let game-name = [#text(fill: min-red)[Mini]#text(fill: max-blue)[max]]
-#set document(title: "Week 7 Tutorial | Games, Adversarial Search", author: "Trible L")
+#set document(title: "Week 7 Tutorial | Games, Adversarial Search", author: "Triple L")
 #set page(paper: "a4", margin: (x: 18mm, y: 16mm),
   footer: context [#text(size: 8pt, fill: luma(90))[COMPSCI 761 · ADVERSARIAL SEARCH] #h(1fr) #counter(page).display("1 / 1", both: true)])
 #set text(font: "Libertinus Serif", size: 11pt, fill: ink)

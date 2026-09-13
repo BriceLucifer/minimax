@@ -294,7 +294,7 @@ def _(mo):
     .outcome {color:#246BEB;font-weight:bold;}
     .legend {font:15px Georgia,serif;color:#657080;margin:0 0 6px;}
     @media(max-width:850px){.demo-frame{grid-template-columns:1fr;gap:4px}.explanation{padding-top:0}.demo-header{display:block}.demo-header h1{font-size:22px}}
-    </style><header class="demo-header"><h1>Week 7 Tutorial | Games, Adversarial Search</h1><span>Team: Trible L</span></header>''')
+    </style><header class="demo-header"><h1>Week 7 Tutorial | Games, Adversarial Search</h1><span>Team: Triple L</span></header>''')
     return
 
 
