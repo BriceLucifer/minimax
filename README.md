@@ -1,12 +1,12 @@
 # Week 7 Tutorial | Games and Adversarial Search
 
-**Team: Trible L**
+**Team: Triple L**
 
 Give students page 1 of the handout and keep page 2, which contains the answers. The English script below can be read aloud as written; the remaining text contains presentation cues. There is no need to ask questions or wait for students to respond.
 
 ## 0–5 Minutes: Set the Exercise
 
-> We’re Team Trible L. The blue triangles are MAX nodes; the red triangles are MIN nodes.
+> We’re Team Triple L. The blue triangles are MAX nodes; the red triangles are MIN nodes.
 >
 > For part (a), work upward from the leaves. Fill in the internal values and choose the best root action.
 >
