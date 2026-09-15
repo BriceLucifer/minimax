@@ -324,8 +324,9 @@ def _(frames, get_step, mo, set_step):
         on_click=lambda _: set_step(max(0, get_step() - 1)),
     )
     next_button = mo.ui.button(
-        label="Next →", disabled=_index == _last, kind="success",
+        label="Next → (Space)", disabled=_index == _last, kind="success",
         on_click=lambda _: set_step(min(_last, get_step() + 1)),
+        keyboard_shortcut="Space",
     )
     restart_button = mo.ui.button(label="Restart", disabled=_index == 0,
                             on_click=lambda _: set_step(0))

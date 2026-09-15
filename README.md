@@ -94,7 +94,7 @@ After explaining each level or cutoff, pause for two or three seconds so student
 
 ## Interactive Demonstration
 
-[minimax_visualizer.py](minimax_visualizer.py) is both a marimo notebook and an executable Python file. After selecting a problem, click **Next** to advance one step, **Previous** to go back and **Restart** to return to the beginning. Switching problems resets the progress. The original leaf scores remain visible at all times, but only leaves actually read by the search count as visited.
+[minimax_visualizer.py](minimax_visualizer.py) is both a marimo notebook and an executable Python file. After selecting a problem, click **Next** or press **Space** to advance one step, **Previous** to go back and **Restart** to return to the beginning. Switching problems resets the progress. The original leaf scores remain visible at all times, but only leaves actually read by the search count as visited.
 
 Create a local environment and start the visualizer from the repository root:
 
