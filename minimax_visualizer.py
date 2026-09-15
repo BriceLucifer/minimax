@@ -320,8 +320,9 @@ def _(frames, get_step, mo, set_step):
     _index = get_step()
     _last = len(frames) - 1
     previous_button = mo.ui.button(
-        label="← Previous", disabled=_index == 0,
+        label="← Previous (↑)", disabled=_index == 0,
         on_click=lambda _: set_step(max(0, get_step() - 1)),
+        keyboard_shortcut="ArrowUp",
     )
     next_button = mo.ui.button(
         label="Next → (Space)", disabled=_index == _last, kind="success",
