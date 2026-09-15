@@ -1,49 +1,49 @@
-# Marimo 演示测试报告
+# Marimo Demonstration Test Report
 
-测试日期：2026-09-13。环境：macOS、Chrome、Python 3.14、marimo 0.24.2。
+Test date: 2026-09-13. Environment: macOS, Chrome, Python 3.14 and marimo 0.24.2.
 
-## 结论
+## Conclusion
 
-本轮检查通过，未发现阻止课堂演示的问题。此前 Next 无法更新的故障已修复，并通过实际浏览器点击回归验证。
+All checks in this test run passed, and no issues that would prevent the classroom demonstration were found. The previous issue that prevented **Next** from updating the display has been fixed and regression-tested through actual browser interactions.
 
-## 浏览器交互
+## Browser Interactions
 
-| 检查 | 结果 |
+| Check | Result |
 | --- | --- |
-| Minimax：从 0 连续 Next 到 10 | 通过；根值 6，动作 c |
-| Minimax：从 10 连续 Previous 回 0 | 通过 |
-| α–β：从 0 连续 Next 到 42 | 通过 |
-| α–β：从 42 连续 Previous 回 0 | 通过 |
-| Chance：从 0 连续 Next 到 4，再逐步退回 | 通过；根值 7，动作 a、c 并列 |
-| 三个模式的 Restart | 通过；回到起点 |
-| 切换模式 | 通过；进度归零，无旧答案残留 |
-| 起点 Previous／Restart 禁用 | 通过 |
-| 三个模式终点 Next 禁用 | 通过 |
-| 浏览器错误日志 | 未发现 error |
-| 桌面页面视觉检查 | 树、文字和控制按钮可见，无明显重叠 |
+| Minimax: click Next repeatedly from 0 to 10 | Passed; root value 6, action c |
+| Minimax: click Previous repeatedly from 10 to 0 | Passed |
+| Alpha-beta: click Next repeatedly from 0 to 42 | Passed |
+| Alpha-beta: click Previous repeatedly from 42 to 0 | Passed |
+| Chance: click Next repeatedly from 0 to 4, then step back to 0 | Passed; root value 7, actions a and c tie |
+| Restart in all three modes | Passed; returned to the initial state |
+| Switch modes | Passed; progress reset with no answers carried over from the previous mode |
+| Previous and Restart disabled in the initial state | Passed |
+| Next disabled at the final state in all three modes | Passed |
+| Browser error log | No errors found |
+| Visual inspection of the desktop page | Tree, text and controls were visible with no obvious overlap |
 
-完整前进 56 次、完整回退 56 次，共 112 次逐步转换；另检查了重启和模式切换。
+The test completed 56 forward steps and 56 backward steps, for a total of 112 step transitions. Restarting and switching modes were also checked.
 
-## 算法与展示
+## Algorithm and Presentation
 
-- 第 12 步在 A2 剪枝：α＝6、β＝5；叶子 m（9）未访问；A2 显示 **≥6**。
-- 第 23 步在 B 剪枝：α＝5、β＝2；B2 的 8、7 未访问；B 显示 **≤2**。
-- α–β 最终访问 j、k、l、n、o、r、s、t、u，即 3、5、6、1、2、4、6、3、8；共 9/12。
-- B2 在整个 α–β 过程中不显示提前计算的准确值。
-- Chance 使用完整树，下层 MAX 值保留；A＝7、B＝5、C＝7。
-- 每个已显示的 α–β 节点值或区间都与独立 minimax 计算的准确值一致。
+- Step 12 prunes A2 with **α = 6, β = 5**. Leaf m (9) is not visited, and A2 displays **≥6**.
+- Step 23 prunes B with **α = 5, β = 2**. The leaves 8 and 7 under B2 are not visited, and B displays **≤2**.
+- Alpha-beta ultimately visits j, k, l, n, o, r, s, t and u, corresponding to 3, 5, 6, 1, 2, 4, 6, 3 and 8: 9 of 12 leaves in total.
+- B2 never displays a prematurely calculated exact value during the alpha-beta search.
+- Chance mode uses the full tree and retains the lower-level MAX values: A = 7, B = 5 and C = 7.
+- Every displayed alpha-beta node value or bound agrees with the exact value from an independent minimax calculation.
 
-## 可重复自动测试
+## Reproducible Automated Tests
 
-已加入 [tests/test_minimax_visualizer.py](tests/test_minimax_visualizer.py)，共 **6 项测试，全部通过**：答案与剪枝、访问与剪枝集合、边界正确性、模式状态隔离、回看状态稳定性、全部 59 帧的 SVG 结构和节点形状。
+[tests/test_minimax_visualizer.py](tests/test_minimax_visualizer.py) adds **six tests, all passing**, that cover answers and pruning, visited and pruned sets, bound correctness, mode-state isolation, stable state history, and the SVG structure and node shapes across all 59 frames.
 
 ```sh
 .venv/bin/marimo check minimax_visualizer.py
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-静态 notebook 检查通过。自动测试覆盖计算与渲染数据；浏览器按钮交互由本轮真实点击验证，未伪装成单元测试。
+The static notebook check passed. The automated tests cover the computation and rendering data; browser button interactions were verified through actual clicks during this test run and were not presented as unit tests.
 
-## 测试范围
+## Test Scope
 
-本轮覆盖当前固定题目和桌面 Chrome。未测试其他浏览器、移动端或离线首次安装。中途共享演示页发生了外部步骤切换，因此后续完整 α–β 流程在独立测试页重新执行并通过。
+This test run covered the current fixed problem and desktop Chrome. Other browsers, mobile devices and first-time offline installation were not tested. An external step change occurred on the shared demonstration page partway through testing, so the complete alpha-beta flow was subsequently run again on an isolated test page and passed.

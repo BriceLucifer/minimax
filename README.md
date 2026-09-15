@@ -1,10 +1,10 @@
-# Week 7 Tutorial | Games, Adversarial Search
+# Week 7 Tutorial | Games and Adversarial Search
 
 **Team: Trible L**
 
-给学生发 handout 第 1 页；第 2 页答案由你保留。下面英文可直接照读，中文只提示操作。不需要提问或等学生回答。
+Give students page 1 of the handout and keep page 2, which contains the answers. The English script below can be read aloud as written; the remaining text contains presentation cues. There is no need to ask questions or wait for students to respond.
 
-## 0–5 分钟：布置练习
+## 0–5 Minutes: Set the Exercise
 
 > We’re Team Trible L. The blue triangles are MAX nodes; the red triangles are MIN nodes.
 >
@@ -14,11 +14,11 @@
 >
 > Spend about five minutes on these two parts. We’ll do part (c) together.
 
-学生做题。若卡住，提示“MAX takes the larger value; MIN takes the smaller value.”
+Let the students work on the exercise. If they get stuck, prompt them with: “MAX takes the larger value; MIN takes the smaller value.”
 
-## 5–7 分钟：minimax
+## 5–7 Minutes: Minimax
 
-演示选择 **(a) Minimax**，逐步回传。
+Select **(a) Minimax** in the visualizer and back up the values step by step.
 
 > Start with the six lower MAX nodes. Their values are 5, 9, 2, 8, 6 and 8.
 >
@@ -26,9 +26,9 @@
 >
 > The root takes the largest of 5, 2 and 6. Its value is 6, so we choose action c, leading to C.
 
-## 7–9 分钟：A2 剪枝
+## 7–9 Minutes: Prune A2
 
-切到 **(b) Alpha-beta**，从头演示到 **Step 12**（第一次剪枝）。
+Switch to **(b) Alpha-beta** and demonstrate from the beginning through **Step 12**, the first cutoff.
 
 > Start with alpha at negative infinity and beta at positive infinity.
 >
@@ -40,11 +40,11 @@
 >
 > We know only that A2 is at least 6. We have not calculated its exact value in this search.
 
-指向 A2：**α＝6、β＝5**；划掉分支 **m**。
+Point to A2: **α = 6, β = 5**. Cross out branch **m**.
 
-## 9–11 分钟：B 剪枝
+## 9–11 Minutes: Prune B
 
-继续到 **Step 23**（第二次剪枝）。
+Continue through **Step 23**, the second cutoff.
 
 > A returns 5, so the root’s alpha becomes 5. B inherits that bound.
 >
@@ -52,11 +52,11 @@
 >
 > The root already has 5, so B cannot improve its choice. Alpha is 5 and beta is 2: we skip all of B2, including leaves 8 and 7.
 
-指向 B：**α＝5、β＝2**；划掉分支 **g** 下的 B2 子树。
+Point to B: **α = 5, β = 2**. Cross out the B2 subtree under branch **g**.
 
-## 11–12 分钟：完成搜索
+## 11–12 Minutes: Complete the Search
 
-继续到 **Step 42**（搜索结束）。
+Continue through **Step 42**, the end of the search.
 
 > C1 returns 6. C2 reads 3 and 8, then returns 8. C returns the smaller value, 6.
 >
@@ -64,9 +64,9 @@
 >
 > We visited 9 of 12 leaves. We skipped one leaf under A2 and two under B2. A different visit order may change the amount of pruning, but not the root value.
 
-## 12–15 分钟：chance
+## 12–15 Minutes: Chance Nodes
 
-切到 **(c) Chance**。下层 MAX 值保留，A、B、C 改成圆形随机节点。
+Switch to **(c) Chance**. Keep the lower-level MAX values and change A, B and C into circular chance nodes.
 
 > Replace A, B and C with CHANCE nodes. Each child has probability one half, so we average the two child values.
 >
@@ -78,25 +78,25 @@
 >
 > This tree uses expectimax. A tree with MAX, MIN and CHANCE nodes uses expectiminimax.
 
-讲完一层或一个剪枝点，留两三秒给学生补写。若时间紧，chance 只讲 **7、5、7；a 和 c 并列最优；取期望代替取最小值**。
+After explaining each level or cutoff, pause for two or three seconds so students can fill in their handouts. If time is short, cover only these points for chance nodes: **7, 5, 7; a and c tie as the optimal actions; take the expected value instead of the minimum**.
 
-## 答案速查
+## Answer Key
 
-| 项目 | 结果 |
+| Item | Result |
 | --- | --- |
-| 下层 MAX | A1＝5，A2＝9，B1＝2，B2＝8，C1＝6，C2＝8 |
-| MIN | A＝5，B＝2，C＝6 |
-| 根值／动作 | 6／c |
-| A2 剪枝 | α＝6，β＝5；跳过 9（m） |
-| B 剪枝 | α＝5，β＝2；跳过 B2（g） |
-| 访问顺序 | 3、5、6、1、2、4、6、3、8，共 9/12 |
-| CHANCE／根动作 | A＝7，B＝5，C＝7；a、c 并列最优 |
+| Lower-level MAX | A1 = 5, A2 = 9, B1 = 2, B2 = 8, C1 = 6, C2 = 8 |
+| MIN | A = 5, B = 2, C = 6 |
+| Root value/action | 6/c |
+| A2 cutoff | α = 6, β = 5; skip 9 (m) |
+| B cutoff | α = 5, β = 2; skip B2 (g) |
+| Visit order | 3, 5, 6, 1, 2, 4, 6, 3, 8; 9/12 total |
+| CHANCE/root action | A = 7, B = 5, C = 7; a and c tie as the optimal actions |
 
-## 交互演示
+## Interactive Demonstration
 
-[minimax_visualizer.py](minimax_visualizer.py) 是 marimo notebook，也是可运行的 Python 文件。选择题目后，点击 **Next** 前进一步，**Previous** 返回，**Restart** 从头开始。切换题目会重置进度。叶子原始分数始终可见，只有搜索实际读到的叶子才计入访问量。
+[minimax_visualizer.py](minimax_visualizer.py) is both a marimo notebook and an executable Python file. After selecting a problem, click **Next** to advance one step, **Previous** to go back and **Restart** to return to the beginning. Switching problems resets the progress. The original leaf scores remain visible at all times, but only leaves actually read by the search count as visited.
 
-在仓库根目录创建本地环境并启动：
+Create a local environment and start the visualizer from the repository root:
 
 ```sh
 python3 -m venv .venv
@@ -104,13 +104,13 @@ python3 -m venv .venv
 .venv/bin/marimo run minimax_visualizer.py
 ```
 
-在其他电脑上用 uv 启动（首次需下载 marimo）：
+To start it with uv on another computer (marimo will be downloaded the first time):
 
 ```sh
 uvx marimo run --sandbox minimax_visualizer.py
 ```
 
-编辑 notebook：
+To edit the notebook:
 
 ```sh
 uvx marimo edit --sandbox minimax_visualizer.py
@@ -118,37 +118,37 @@ uvx marimo edit --sandbox minimax_visualizer.py
 
 ## Handout
 
-- [PDF](output/pdf/minimax_handout.pdf)：第 1 页题目，第 2 页答案。
-- [Typst 源码](minimax_handout.typ)：CeTZ 绘图。
+- [PDF](output/pdf/minimax_handout.pdf): questions on page 1 and answers on page 2.
+- [Typst source](minimax_handout.typ): diagrams drawn with CeTZ.
 
 ```sh
 typst c minimax_handout.typ output/pdf/minimax_handout.pdf
 ```
 
-marimo 用法参考：[运行 notebook](https://docs.marimo.io/guides/apps/)、[交互按钮](https://docs.marimo.io/api/inputs/button/)。
+For more information about marimo, see [Running notebooks](https://docs.marimo.io/guides/apps/) and [Button UI element](https://docs.marimo.io/api/inputs/button/).
 
-## 测试
+## Testing
 
-[测试报告](TEST_REPORT.md) 包含浏览器逐步操作与算法检查结果。运行回归测试：
+[The test report](TEST_REPORT.md) contains the step-by-step browser checks and algorithm verification results. Run the regression tests with:
 
 ```sh
 .venv/bin/marimo check minimax_visualizer.py
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-## GitHub Actions / GitHub Pages
+## GitHub Actions and GitHub Pages
 
-工作流：[.github/workflows/pages.yml](.github/workflows/pages.yml)。
+Workflow: [.github/workflows/pages.yml](.github/workflows/pages.yml).
 
-- Pull request：检查 notebook、运行 6 项回归测试、导出交互网页；不部署。
-- 推送到 `main`：检查通过后自动部署 GitHub Pages。
-- Actions 页面也可以手动选择 `main`，点击 **Run workflow**。
-- 固定使用 Python 3.13 和 marimo 0.24.2；以后升级 marimo 时同步修改 Python 文件内的依赖版本与 workflow。
+- Pull requests check the notebook, run six regression tests and export the interactive web page without deploying it.
+- Pushes to `main` automatically deploy to GitHub Pages after the checks pass.
+- On the Actions page, you can also select `main` and click **Run workflow** to trigger the workflow manually.
+- The workflow is pinned to Python 3.13 and marimo 0.24.2. When upgrading marimo, update both the dependency version in the Python file and the workflow.
 
-首次设置：在 GitHub 仓库的 **Settings → Pages → Build and deployment → Source** 选择 **GitHub Actions**，然后推送到 `main`。无需填写个人 token。成功后可在 Actions 的 `github-pages` deployment 找到网站链接。
+For the initial setup, go to **Settings → Pages → Build and deployment → Source** in the GitHub repository, select **GitHub Actions** and push to `main`. No personal token is required. After a successful deployment, the website link is available in the `github-pages` deployment on the Actions page.
 
-新建仓库后，把本目录的内容放在**新仓库根目录**，包括隐藏的 `.github/` 文件夹。GitHub 只识别仓库根目录下的 `.github/workflows`。配置也兼容 notebook 放在 `tutorial/` 子目录的情况。
+When creating a new repository, place the contents of this directory at the **new repository root**, including the hidden `.github/` directory. GitHub only recognizes `.github/workflows` at the repository root. The configuration also supports placing the notebook in a `tutorial/` subdirectory.
 
-提交 Python 文件、`tests/`、workflow 和所需的 `layouts/` 文件。不要提交 `.venv`、`__marimo__` 或 `output/web`；网页由 CI 重新导出。保存的 Slides 布局会影响导出，因此上传前先确认本地布局正确。
+Commit the Python file, `tests/`, the workflow and the required `layouts/` files. Do not commit `.venv`, `__marimo__` or `output/web`; the web page is exported again by CI. Saved Slides layouts affect the export, so confirm that the local layout is correct before uploading it.
 
-实现依据：[GitHub Pages 官方工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)、[marimo WebAssembly 导出](https://docs.marimo.io/guides/exporting/webassembly_html/)。
+Implementation references: [Using custom workflows with GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) and [Exporting marimo notebooks to WebAssembly](https://docs.marimo.io/guides/exporting/webassembly_html/).
